@@ -1,7 +1,8 @@
 
 let app = require('express')();
 let server = require('http').createServer(app);
-let io = require('socket.io')(server);
+let io = require('socket.io')(server,{ cors: {origin: '*', methods: ['GET','POST','PUT'] }});
+
  
 io.on('connection', (socket) => {
  
@@ -16,6 +17,7 @@ io.on('connection', (socket) => {
   
   socket.on('send-message', (message) => {
     io.emit('message', {msg: message.text, user: socket.username, createdAt: new Date()});    
+    console.log(message);
   });
 });
  
