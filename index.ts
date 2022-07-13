@@ -7,8 +7,8 @@ let getCasesApi = require('./api/getCases');
 
 let app = require('express')();
 let server = require('http').createServer(app);
-let io = require('socket.io')(server);
-let bodyParser= require('body-parser');
+let io = require('socket.io')(server,{ cors: {origin: '*', methods: ['GET','POST','PUT'] }});
+
  
 function sucessCallback(response:any){
   if(response){
@@ -30,6 +30,7 @@ io.on('connection', (socket:any) => {
   
   socket.on('send-message', (message:any) => {
     io.emit('message', {msg: message.text, user: socket.username, createdAt: new Date()});    
+    console.log(message);
   });
 });
  
