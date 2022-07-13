@@ -7,6 +7,7 @@ let getCasesApi = require('./api/getCases');
 
 let app = require('express')();
 let server = require('http').createServer(app);
+let bodyParser= require('body-parser');
 let io = require('socket.io')(server,{ cors: {origin: '*', methods: ['GET','POST','PUT'] }});
 
  
