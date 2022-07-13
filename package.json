@@ -4,7 +4,7 @@
   "description": "Socket Server for Ionic App",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.ts",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,8 +19,7 @@
     "mongod": "^2.0.0",
     "mongodb": "^4.7.0",
     "socket.io": "^4.5.1",
-    "ts-node": "^10.8.2",
-    "typescript": "^4.7.4"
+    "ts-node": "^10.8.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
