@@ -11,25 +11,25 @@ let bodyParser= require('body-parser');
 let io = require('socket.io')(server,{ cors: {origin: '*', methods: ['GET','POST','PUT'] }});
 
  
-function sucessCallback(response:any){
+function sucessCallback(response){
   if(response){
     response.end();
   }
 }
 
 
-io.on('connection', (socket:any) => {
+io.on('connection', (socket) => {
  
   socket.on('disconnect', function(){
     io.emit('users-changed', {user: socket.username, event: 'left'});   
   });
  
-  socket.on('set-name', (name:any) => {
+  socket.on('set-name', (name) => {
     socket.username = name;
     io.emit('users-changed', {user: name, event: 'joined'});    
   });
   
-  socket.on('send-message', (message:any) => {
+  socket.on('send-message', (message) => {
     io.emit('message', {msg: message.text, user: socket.username, createdAt: new Date()});    
     console.log(message);
   });
@@ -43,23 +43,23 @@ server.listen(port, function(){
    console.log('listening in http://localhost:' + port);
 });
 
-app.get('/getCases', (req:any, res:any) => {
+app.get('/getCases', (req, res) => {
   readApi( req, res).then(sucessCallback);
 } )
 
-app.get('/readCase', (req:any, res:any) => {
+app.get('/readCase', (req, res) => {
   readApi( req, res).then(sucessCallback);
 } )
 
-app.post('/createCase', (req:any, res:any) => {
+app.post('/createCase', (req, res) => {
   createApi( req, res).then(sucessCallback);
 } )
 
-app.post('/updateCase', (req:any, res:any) => {
+app.post('/updateCase', (req, res) => {
   updateApi( req, res).then(sucessCallback);
 } )
 
-app.post('/deleteCase', (req:any, res:any) => {
+app.post('/deleteCase', (req, res) => {
   deleteApi( req, res).then(sucessCallback);
 } )
 
