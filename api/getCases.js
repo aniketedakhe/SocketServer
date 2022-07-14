@@ -1,6 +1,6 @@
 const { dbConfig } = require('../configuration/config');
 
-module.exports = async function (context, req) {
+module.exports = async function (req, res) {
     try {
     const client = await require('../api/dbConnect') (dbConfig.url);
     const db = await client.db(dbConfig.dbName);

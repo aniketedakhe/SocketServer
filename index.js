@@ -44,7 +44,7 @@ server.listen(port, function(){
 });
 
 app.get('/getCases', (req, res) => {
-  readApi( req, res).then(sucessCallback);
+  getCasesApi( req, res).then(sucessCallback);
 } )
 
 app.get('/readCase', (req, res) => {
