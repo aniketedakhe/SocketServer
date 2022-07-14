@@ -6,8 +6,9 @@ let getCasesApi = require('./api/getCases');
 
 
 let app = require('express')();
-let server = require('http').createServer(app);
 let bodyParser= require('body-parser');
+let cors = require('cors')
+let server = require('http').createServer(app); 
 let io = require('socket.io')(server,{ cors: {origin: '*', methods: ['GET','POST','PUT'] }});
 
  
@@ -38,6 +39,7 @@ io.on('connection', (socket) => {
 var port = process.env.PORT || 3001;
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ inflate: true }));
+app.use(cors());
 
 server.listen(port, function(){
    console.log('listening in http://localhost:' + port);
