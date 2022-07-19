@@ -25,7 +25,7 @@ module.exports = async function (req, res) {
         if (!caseId) { caseId = req.body.id };   //keep original logic
 
         const client = await require('../api/dbConnect')(dbConfig.url);
-        const db = await client.db(dbConfig);
+        const db = await client.db(dbConfig.dbName);
         
         if (req.query.selection || req.query.exclusion) {
             const caseHeaderArray = await db.collection(dbConfig.dbCollectionName).find({ "caseId": caseId }).project(projection).toArray();
@@ -33,7 +33,7 @@ module.exports = async function (req, res) {
                 caseHeader = caseHeaderArray[0];
             }
         } else {
-            caseHeader = await db.collection("dbConfig.dbCollectionName").findOne({ "caseDetails.caseId": caseId });
+            caseHeader = await db.collection(dbConfig.dbCollectionName).findOne({ "caseId": caseId });
         }
         delete caseHeader._id;
 
