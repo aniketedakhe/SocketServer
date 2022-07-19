@@ -31,7 +31,9 @@ io.on('connection', (socket) => {
   });
   
   socket.on('send-message', (message) => {
-    io.emit('message', {msg: message.text, user: socket.username, createdAt: new Date()});    
+    createApi(null, null, message).then( 
+            ( data ) => { io.emit('work-item-created', data) }).catch(
+                io.emit('work-item-created', 'error while creating case!'));
     console.log(message);
   });
 });
