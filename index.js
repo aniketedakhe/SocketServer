@@ -51,6 +51,10 @@ app.get('/getCases', (req, res) => {
   getCasesApi( req, res).then(sucessCallback);
 } )
 
+app.post('/getCases', (req, res) => {
+  getCasesApi( req, res).then(sucessCallback);
+} )
+
 app.get('/readCase', (req, res) => {
   readApi( req, res).then(sucessCallback);
 } )
