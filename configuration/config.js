@@ -18,6 +18,10 @@ module.exports = {
         Released : "released",
         OrderFxd : "orderFulfilled",
         OrderDnd : "orderDenied",
+      },
+      CaseConstants: {
+        caseCreatedAt : 'caseCreatedAt',
+        caseChangedAt : 'caseChangedAt'
       }
 };
 

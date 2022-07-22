@@ -1,4 +1,4 @@
-const { dbConfig, CaseStatus } = require('../configuration/config');
+const { dbConfig, CaseStatus, CaseConstants } = require('../configuration/config');
 
 module.exports = async function (req, res, ws) {
     try {
@@ -14,17 +14,20 @@ module.exports = async function (req, res, ws) {
         var changeParam = {};
         changeParam[changeVar] = req.body.updateProperty.propertyValue;
 
-        if (length < 2) {
-            const caseHeader = await db.collection(dbConfig.dbCollectionName).updateOne(req.body.query[0], { $set: changeParam });
-            responseMessage = caseHeader;
-        }
-        else {
+        changeParam[CaseConstants.caseChangedAt] = new Date().toISOString();
+
+        
+        // if (length < 2) {
+        //     const caseHeader = await db.collection(dbConfig.dbCollectionName).updateOne(req.body.query[0], { $set: changeParam });
+        //     responseMessage = caseHeader;
+        // }
+        // else {
             var myVar = "$and";
             var params = {};
             params[myVar] = req.body.query;
             const caseHeader = await db.collection(dbConfig.dbCollectionName).updateOne(params, { $set: changeParam });
             responseMessage = caseHeader;
-        }
+        // }
 
         res.statusCode = 200;
         res.write(JSON.stringify(responseMessage));
