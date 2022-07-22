@@ -12,10 +12,11 @@ module.exports = async function (req, res, dataObject) {
     caseRecord.caseId = getCaseId();
 
     if (req) {
-
+        
         for (let key in req.body) {
             caseRecord[key] = req.body[key];
         }
+        
         res.setHeader('Content-Type', 'application/json');
 
         try {
@@ -43,9 +44,11 @@ module.exports = async function (req, res, dataObject) {
             const client = await require('../api/dbConnect')(dbConfig.url);
             const db = await client.db(dbConfig.dbName);
             const caseHeader = await db.collection(dbConfig.dbCollectionName).insertOne(caseRecord);
-            return caseRecord;
+            delete caseRecord._id;
+            return Promise.resolve(caseRecord); 
         }
         catch (e) {
+            Promise.reject(e);
         }
     }
 }
