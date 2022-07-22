@@ -8,7 +8,17 @@ module.exports = {
         uriOptions: "readPreference=primary&ssl=false&directConnection=true",
         dbName: "tcaDb",
         dbCollectionName: "tcaCollection"
-    }
+    },
+    CaseStatus: {
+        FieldName : "caseStatus",
+        OrderRx : "orderReceived",
+        DspToAgency : "dispatchedToDawe",
+        RxdFrmAgency : "receivedFromDawe",
+        Inspection : "inspection",
+        Released : "released",
+        OrderFxd : "orderFulfilled",
+        OrderDnd : "orderDenied",
+      }
 };
 
 

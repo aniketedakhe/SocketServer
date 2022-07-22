@@ -40,10 +40,10 @@ io.on('connection', (socket) => {
             console.log(err); 
           });
         });
-        
-  socket.on('work-item-created', (message) => {
-    console.log('work-item-created-fired')
-  });
+
+  // socket.on('work-item-created', (message) => {
+  //   console.log('work-item-created-fired')
+  // });
 
 });
  
@@ -73,7 +73,7 @@ app.post('/createCase', (req, res) => {
 } )
 
 app.post('/updateCase', (req, res) => {
-  updateApi( req, res).then(sucessCallback);
+  updateApi( req, res, io).then(sucessCallback);
 } )
 
 app.post('/deleteCase', (req, res) => {

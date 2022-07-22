@@ -1,6 +1,6 @@
-const { dbConfig } = require('../configuration/config');
+const { dbConfig, CaseStatus } = require('../configuration/config');
 
-module.exports = async function (req, res) {
+module.exports = async function (req, res, ws) {
     try {
         
         const client = await require('../api/dbConnect')(dbConfig.url);
@@ -16,7 +16,7 @@ module.exports = async function (req, res) {
 
         if (length < 2) {
             const caseHeader = await db.collection(dbConfig.dbCollectionName).updateOne(req.body.query[0], { $set: changeParam });
-            let responseMessage = caseHeader;
+            responseMessage = caseHeader;
         }
         else {
             var myVar = "$and";
@@ -25,8 +25,26 @@ module.exports = async function (req, res) {
             const caseHeader = await db.collection(dbConfig.dbCollectionName).updateOne(params, { $set: changeParam });
             responseMessage = caseHeader;
         }
+
         res.statusCode = 200;
         res.write(JSON.stringify(responseMessage));
+
+        if (ws){ //we have the websocket .. tell everyone that an item is added
+            switch (req.body.updateProperty.propertyValue) {
+                case CaseStatus.DspToAgency:
+                    ws.emit('work-item-published', req.body.query[0]) //this means importer said send to agency
+                    break;
+                case CaseStatus.RxdFrmAgency:
+                    ws.emit('work-item-created', req.body.query[0]) //this means agency said send to importer
+                break;
+                case CaseStatus.Released:
+                    ws.emit('work-item-finalised', req.body.query[0]) //this means agency said release the item to customer
+                break;
+
+                default:
+                    break;
+            }
+        }
     }
     catch (e) {
         res.statusCode = 500;
