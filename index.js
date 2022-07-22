@@ -4,20 +4,17 @@ let updateApi = require('./api/updateCase');
 let deleteApi = require('./api/deleteCase');
 let getCasesApi = require('./api/getCases');
 
-
 let app = require('express')();
 let bodyParser= require('body-parser');
 let cors = require('cors')
 let server = require('http').createServer(app); 
 let io = require('socket.io')(server,{ cors: {origin: '*', methods: ['GET','POST','PUT'] }});
-
  
 function sucessCallback(response){
   if(response){
     response.end();
   }
 }
-
 
 io.on('connection', (socket) => {
  
