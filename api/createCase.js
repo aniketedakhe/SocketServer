@@ -65,7 +65,7 @@ function setEmpty(input){
         for( let key of keys ){
 
              if(typeof input[key] != "object" ){
-                 input[key] = null;
+                 input[key] = '';
              }else{
                  setEmpty(input[key]);
              }
