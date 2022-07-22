@@ -3,11 +3,11 @@ const { dbConfig } = require('../configuration/config');
 
 module.exports = async function (req, res, dataObject) {
     var caseRecord = require('../configuration/tcaSchema');
-    for (let key in caseRecord) {
-        caseRecord[key] = '';
-    }
+    // for (let key in caseRecord) {
+    //     caseRecord[key] = '';
+    // }
 
-    
+    setEmpty(caseRecord);
 
     caseRecord.caseId = getCaseId();
 
@@ -32,7 +32,7 @@ module.exports = async function (req, res, dataObject) {
             res.write((e.errmsg) ? JSON.stringify(e.errmsg) : JSON.stringify(e));
         }
 
-            delete caseRecord._id;
+        delete caseRecord._id;
         return res;
     }
 
@@ -40,8 +40,6 @@ module.exports = async function (req, res, dataObject) {
     if (dataObject) {
         caseRecord.customerDetails = dataObject.userDetails;
         caseRecord.prearrivalInformation.importItems = dataObject.requestedProducts;
-
-
         try {
             const client = await require('../api/dbConnect')(dbConfig.url);
             const db = await client.db(dbConfig.dbName);
@@ -59,3 +57,18 @@ function getCaseId() {
     d = new Date();
     return (String(d.getDate()) + String(d.getMonth() + 1) + String(d.getFullYear()) + String(d.getHours()) + String(d.getMinutes()) + String(d.getSeconds()) + String(d.getMilliseconds()));
 }
+
+function setEmpty(input){
+
+    let keys = Object.keys(input);
+
+        for( let key of keys ){
+
+             if(typeof input[key] != "object" ){
+                 input[key] = '';
+             }else{
+                 setEmpty(input[key]);
+             }
+        }
+        return input;
+    }
