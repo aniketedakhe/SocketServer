@@ -3,20 +3,10 @@ const { dbConfig } = require('../configuration/config');
 
 module.exports = async function (req, res, dataObject) {
     var caseRecord = require('../configuration/tcaSchema');
-    // for (let key in caseRecord) {
-    //     caseRecord[key] = '';
-    // }
-
-    setEmpty(caseRecord);
-
-    caseRecord.caseId = getCaseId();
+    setCaseMetaData(caseRecord, req.body, dataObject)
 
     if (req) {
-        
-        for (let key in req.body) {
-            caseRecord[key] = req.body[key];
-        }
-        
+
         res.setHeader('Content-Type', 'application/json');
 
         try {
@@ -38,14 +28,12 @@ module.exports = async function (req, res, dataObject) {
 
 
     if (dataObject) {
-        caseRecord.customerDetails = dataObject.userDetails;
-        caseRecord.prearrivalInformation.importItems = dataObject.requestedProducts;
         try {
             const client = await require('../api/dbConnect')(dbConfig.url);
             const db = await client.db(dbConfig.dbName);
             const caseHeader = await db.collection(dbConfig.dbCollectionName).insertOne(caseRecord);
             delete caseRecord._id;
-            return Promise.resolve(caseRecord); 
+            return Promise.resolve(caseRecord);
         }
         catch (e) {
             Promise.reject(e);
@@ -58,17 +46,55 @@ function getCaseId() {
     return (String(d.getDate()) + String(d.getMonth() + 1) + String(d.getFullYear()) + String(d.getHours()) + String(d.getMinutes()) + String(d.getSeconds()) + String(d.getMilliseconds()));
 }
 
-function setEmpty(input){
+function setEmpty(input) {
 
     let keys = Object.keys(input);
 
-        for( let key of keys ){
+    for (let key of keys) {
 
-             if(typeof input[key] != "object" ){
-                 input[key] = '';
-             }else{
-                 setEmpty(input[key]);
-             }
+        if (typeof input[key] != "object") {
+            input[key] = '';
+        } else {
+            setEmpty(input[key]);
         }
-        return input;
     }
+    return input;
+}
+
+function setCaseMetaData(caseRecord, httpReq, dataObject) {
+    setEmpty(caseRecord);
+
+
+    if (httpReq) {
+        caseRecord = copyDataFromHTTPReq(caseRecord,httpReq)
+    }
+
+    if (dataObject) {
+        for (let key in dataObject.userDetails) {
+            caseRecord.customerDetails[key] = dataObject.userDetails[key];
+        }
+
+        for (let key in dataObject.requestedProducts) {
+            caseRecord.prearrivalInformation.importItems[key] = dataObject.requestedProducts[key];
+        }
+    }
+    caseRecord.caseId = getCaseId();
+    caseRecord.caseStatus = "orderReceived";
+    caseRecord.caseChangedAt = caseRecord.caseCreatedAt = new Date().toISOString();
+
+}
+
+function copyDataFromHTTPReq(target, source) {
+
+    let keys = Object.keys(source);
+
+    for (let key of keys) {
+
+        if (typeof source[key] != "object") {
+            target[key] = source[key];
+        } else {
+            target[key]= copyDataFromHTTPReq(target[key],source[key]);
+        }
+    }
+    return target;
+}

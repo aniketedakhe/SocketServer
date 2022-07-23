@@ -16,6 +16,10 @@ function sucessCallback(response){
   }
 }
 
+function rejectionCallBack(error){
+  console.log(error);
+}
+
 io.on('connection', (socket) => {
  
   socket.on('disconnect', function(){
@@ -66,7 +70,7 @@ app.get('/readCase', (req, res) => {
 } )
 
 app.post('/createCase', (req, res) => {
-  createApi( req, res).then(sucessCallback);
+  createApi( req, res).then(sucessCallback,rejectionCallBack);
 } )
 
 app.post('/updateCase', (req, res) => {

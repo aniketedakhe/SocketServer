@@ -4,125 +4,126 @@
   "caseChangedBy": "aniketedakhe@reason.com.au",
   "caseCreatedAt": "2022-04-10T13:49:51.141Z",
   "caseChangedAt": "2022-04-10T13:49:51.141Z",
-  "caseType": "AUNZ",
+  "caseType": "expr",
   "caseStatus": "orderReceived",
-  "//allowedvalues_caseStatus": "orderRecieved, dispatchedToDawe, recievedFromDawe, inspection, released, orderFulfilled, orderDenied",
+  "//allowedvalues_caseStatus": "orderReceived, dispatchedToDawe, receivedFromDawe, inspection, released, orderFulfilled, orderDenied",
   "caseCheckpointId": "PreArrival",
   "employeeResponsible": "tibor.kacsur@reason.com.au",
   "channel": "importer",
   "customerDetails": {
-    "abn": "1346549726",
-    "cac": "",
-    "name": "Aniket Edakhe",
-    "addressLine1": "134 Reed St North",
-    "addressLine2": "",
-    "suburb": "ACT",
-    "city": "Canberra",
-    "postCode": "2900",
-    "countryCode": "NZ",
-    "phoneNo": "+64123465789",
-    "faxNo": "+64123456789",  
-    "eMail": "Southernproduce@reason.com.au",
-    "location": {
-      "lat": 41.12,
-      "lon": -71.34
-    }
+      "abn": "1346549726",
+      "cac": "",
+      "name": "Aniket Edakhe",
+      "addressLine1": "134 Reed St North",
+      "addressLine2": "",
+      "suburb": "Greenway",
+      "state" : "ACT",
+      "city": "Canberra",
+      "postCode": "2900",
+      "countryCode": "NZ",
+      "phoneNo": "+64123465789",
+      "faxNo": "+64123456789",
+      "eMail": "Southernproduce@reason.com.au",
+      "location": {
+          "lat": 41.12,
+          "lon": -71.34
+      }
   },
   "importerDetails": {
-    "abn": "1346549726",
-    "cac": "",
-    "name": "Southern Produce Ltd",
-    "addressLine1": "37 NEWNHAM ROAD",
-    "addressLine2": "",
-    "suburb": "TAURANGA",
-    "city": "",
-    "postCode": "3174",
-    "countryCode": "NZ",
-    "phoneNo": "+64123465789",
-    "faxNo": "+64123456789",
-    "eMail": "Southernproduce@reason.com.au",
-    "location": {
-      "lat": 41.12,
-      "lon": -71.34
-    }
+      "abn": "1346549726",
+      "cac": "",
+      "name": "Southern Produce Ltd",
+      "addressLine1": "37 NEWNHAM ROAD",
+      "addressLine2": "",
+      "suburb": "TAURANGA",
+      "city": "",
+      "postCode": "3174",
+      "countryCode": "NZ",
+      "phoneNo": "+64123465789",
+      "faxNo": "+64123456789",
+      "eMail": "Southernproduce@reason.com.au",
+      "location": {
+          "lat": 41.12,
+          "lon": -71.34
+      }
   },
   "prearrivalInformation": {
-    "totalLines": 1,
-    "totalTransportLines": 1,
-    "totalCustomsValueAmt": "62471.70",
-    "totalCustomsValueCurr": "NZD",
-    "inspectionLocName": "SYD",
-    "cargoType": "FCL",
-    "consignmentRef": "ACD0592882",
-    "containerNo": "APRU6100220",
-    "houseAirWaybill": "",
-    "masterAirWaybill": "",
-    "houseBill": "SAKL00117835",
-    "oceanBill": "ACD0597470",
-    "voyageNo": "2204",
-    "vesselID": "9435234",
-    "vesselName": "HANSA BITBURG",
-    "marksAndNumbers": "one marked container",
-    "transportMode": "SEA",
-    "portofLoading": {
-      "code": "NZTRG",
-      "location": {
-        "lat": 41.12,
-        "lon": -71.34
-      }
-    },
-    "portofDischarge": {
-      "code": "AUSYD",
-      "location": {
-        "lat": 41.12,
-        "lon": -71.34
-      }
-    },
-    "importItems": [
-      {
-        "lineNo": 1,
-        "natureType": "N10",
-        "containerNumber": "APRU6100220",
-        "goodsDescr": "AVOCADOS",
-        "tariffClassNo": "08044000",
-        "count": 1,
-        "quantityDetails": {
-          "qty": "19083.00000",
-          "qtyUnit": "KG"
-        },
-        "supplierDetails": {
-          "abn": "1346549726",
-          "cac": "",
-          "name": "Southern Produce Ltd",
-          "addressLine1": "37 NEWNHAM ROAD",
-          "addressLine2": "",
-          "suburb": "TAURANGA",
-          "city": "",
-          "postCode": "3174",
-          "countryCode": "NZ",
-          "phoneNo": "+64123465789",
-          "faxNo": "+64123456789",
-          "eMail": "Southernproduce@reason.com.au",
+      "totalLines": 1,
+      "totalTransportLines": 1,
+      "totalCustomsValueAmt": "62471.70",
+      "totalCustomsValueCurr": "NZD",
+      "inspectionLocName": "SYD",
+      "cargoType": "FCL",
+      "consignmentRef": "ACD0592882",
+      "containerNo": "APRU6100220",
+      "houseAirWaybill": "",
+      "masterAirWaybill": "",
+      "houseBill": "SAKL00117835",
+      "oceanBill": "ACD0597470",
+      "voyageNo": "2204",
+      "vesselID": "9435234",
+      "vesselName": "HANSA BITBURG",
+      "marksAndNumbers": "one marked container",
+      "transportMode": "SEA",
+      "portofLoading": {
+          "code": "NZTRG",
           "location": {
-            "lat": 41.12,
-            "lon": -71.34
+              "lat": 41.12,
+              "lon": -71.34
           }
-        }
-      }
-    ]
+      },
+      "portofDischarge": {
+          "code": "AUSYD",
+          "location": {
+              "lat": 41.12,
+              "lon": -71.34
+          }
+      },
+      "importItems": [
+          {
+              "lineNo": 1,
+              "natureType": "N10",
+              "containerNumber": "APRU6100220",
+              "goodsDescr": "AVOCADOS",
+              "tariffClassNo": "08044000",
+              "count": 1,
+              "quantityDetails": {
+                  "qty": "19083.00000",
+                  "qtyUnit": "KG"
+              },
+              "supplierDetails": {
+                  "abn": "1346549726",
+                  "cac": "",
+                  "name": "Southern Produce Ltd",
+                  "addressLine1": "37 NEWNHAM ROAD",
+                  "addressLine2": "",
+                  "suburb": "TAURANGA",
+                  "city": "",
+                  "postCode": "3174",
+                  "countryCode": "NZ",
+                  "phoneNo": "+64123465789",
+                  "faxNo": "+64123456789",
+                  "eMail": "Southernproduce@reason.com.au",
+                  "location": {
+                      "lat": 41.12,
+                      "lon": -71.34
+                  }
+              }
+          }
+      ]
   },
   "taskList": [
-    {
-      "conditionType": "ImportRequirement",
-      "condition": "PhytosanitaryCertificate",
-      "conditionCategory": "eCert",
-      "mandatory": "yes",
-      "mediaEvidence": "no",
-      "inputCategory": "InputValue",
-      "status": "",
-      "value": "NYPD/1234/653842",
-      "documentType": "eCert",
-      "biconUrl": "https://bicon.agriculture.gov.au/BiconWeb4.0/ImportConditions/Conditions?EvaluatableElementId=622973&Path=UNDEFINED&UserContext=External&EvaluationStateId=5ac9096e-d197-48df-9c81-5279c5e02315&CaseElementPk=1748670&EvaluationPhase=ImportDefinition&HasAlerts=True&HasChangeNotices=False&IsAEP=False"
-    }
+      {
+          "conditionType": "ImportRequirement",
+          "condition": "PhytosanitaryCertificate",
+          "conditionCategory": "eCert",
+          "mandatory": "yes",
+          "mediaEvidence": "no",
+          "inputCategory": "InputValue",
+          "status": "",
+          "value": "NYPD/1234/653842",
+          "documentType": "eCert",
+          "biconUrl": "https://bicon.agriculture.gov.au/BiconWeb4.0/ImportConditions/Conditions?EvaluatableElementId=622973&Path=UNDEFINED&UserContext=External&EvaluationStateId=5ac9096e-d197-48df-9c81-5279c5e02315&CaseElementPk=1748670&EvaluationPhase=ImportDefinition&HasAlerts=True&HasChangeNotices=False&IsAEP=False"
+      }
   ]
 }
