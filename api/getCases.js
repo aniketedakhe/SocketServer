@@ -4,8 +4,6 @@ module.exports = async function (req, res) {
     try {
     const client = await require('../api/dbConnect') (dbConfig.url);
     const db = await client.db(dbConfig.dbName);
-
-    console.log(req.body);
     const cases = await db.collection(dbConfig.dbCollectionName).find(req.body? req.body :{}).toArray();
     const responseMessage = cases;
     //res.statusCode = req.method === 'GET' ? 200  : 204;

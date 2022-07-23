@@ -32,14 +32,14 @@ io.on('connection', (socket) => {
   });
   
   socket.on('send-message', (message) => {
-    createApi(null, null, message).then( 
-            ( data ) => { 
-              io.emit('work-item-created', data)
-              console.log('after-work-item-created') 
-          }).catch( (err) => {
-             io.emit('work-item-created', 'error while creating case!');
-            console.log(err); 
-          });
+    // createApi(null, null, message).then( 
+    //         ( data ) => { 
+    //           io.emit('work-item-created', data)
+    //           console.log('after-work-item-created') 
+    //       }).catch( (err) => {
+    //          io.emit('work-item-created', 'error while creating case!');
+    //         console.log(err); 
+    //       });
         });
 
   // socket.on('work-item-created', (message) => {
@@ -70,7 +70,7 @@ app.get('/readCase', (req, res) => {
 } )
 
 app.post('/createCase', (req, res) => {
-  createApi( req, res).then(sucessCallback,rejectionCallBack);
+  createApi( req, res, io).then(sucessCallback,rejectionCallBack);
 } )
 
 app.post('/updateCase', (req, res) => {

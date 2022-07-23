@@ -1,9 +1,9 @@
 const { response } = require('express');
 const { dbConfig } = require('../configuration/config');
 
-module.exports = async function (req, res, dataObject) {
+module.exports = async function (req, res, ws) {
     var caseRecord = require('../configuration/tcaSchema');
-    setCaseMetaData(caseRecord, req.body, dataObject)
+    setCaseMetaData(caseRecord, req.body);//, dataObject)
 
     if (req) {
 
@@ -16,6 +16,10 @@ module.exports = async function (req, res, dataObject) {
             const responseMessage = caseRecord;
             res.statusCode = 200;
             res.write(JSON.stringify(responseMessage));
+
+            if (ws){ //we have the websocket .. tell everyone that an item is added
+                        ws.emit('work-item-created', caseRecord) //this means agency said send to importer, customer sent to importer
+            }
         }
         catch (e) {
             res.statusCode = 500;
@@ -24,20 +28,6 @@ module.exports = async function (req, res, dataObject) {
 
         delete caseRecord._id;
         return res;
-    }
-
-
-    if (dataObject) {
-        try {
-            const client = await require('../api/dbConnect')(dbConfig.url);
-            const db = await client.db(dbConfig.dbName);
-            const caseHeader = await db.collection(dbConfig.dbCollectionName).insertOne(caseRecord);
-            delete caseRecord._id;
-            return Promise.resolve(caseRecord);
-        }
-        catch (e) {
-            Promise.reject(e);
-        }
     }
 }
 
@@ -69,15 +59,15 @@ function setCaseMetaData(caseRecord, httpReq, dataObject) {
         caseRecord = copyDataFromHTTPReq(caseRecord,httpReq)
     }
 
-    if (dataObject) {
-        for (let key in dataObject.userDetails) {
-            caseRecord.customerDetails[key] = dataObject.userDetails[key];
-        }
+    // if (dataObject) {
+    //     for (let key in dataObject.userDetails) {
+    //         caseRecord.customerDetails[key] = dataObject.userDetails[key];
+    //     }
 
-        for (let key in dataObject.requestedProducts) {
-            caseRecord.prearrivalInformation.importItems[key] = dataObject.requestedProducts[key];
-        }
-    }
+    //     for (let key in dataObject.requestedProducts) {
+    //         caseRecord.prearrivalInformation.importItems[key] = dataObject.requestedProducts[key];
+    //     }
+    // }
     caseRecord.caseId = getCaseId();
     caseRecord.caseStatus = "orderReceived";
     caseRecord.caseChangedAt = caseRecord.caseCreatedAt = new Date().toISOString();

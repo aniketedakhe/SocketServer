@@ -9,10 +9,16 @@ module.exports = async function (req, res, ws) {
         var queryExprs = req.body.query;
         var length = queryExprs.length;
         var responseMessage;
-
-        var changeVar = req.body.updateProperty.propertyName;
         var changeParam = {};
-        changeParam[changeVar] = req.body.updateProperty.propertyValue;
+
+
+        req.body.updateProperty.forEach(element => {
+            var changeVar = element.propertyName;
+            changeParam[changeVar] = element.propertyValue;  
+        });
+        // for (let property in req.body.updateProperty){
+        
+        // }
 
         changeParam[CaseConstants.caseChangedAt] = new Date().toISOString();
 
