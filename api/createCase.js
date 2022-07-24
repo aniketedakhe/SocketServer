@@ -17,8 +17,8 @@ module.exports = async function (req, res, ws) {
             res.statusCode = 200;
             res.write(JSON.stringify(responseMessage));
 
-            if (ws){ //we have the websocket .. tell everyone that an item is added
-                        ws.emit('work-item-created', caseRecord) //this means agency said send to importer, customer sent to importer
+            if (ws) { //we have the websocket .. tell everyone that an item is added
+                ws.emit('work-item-created', caseRecord) //this means agency said send to importer, customer sent to importer
             }
         }
         catch (e) {
@@ -56,22 +56,38 @@ function setCaseMetaData(caseRecord, httpReq, dataObject) {
 
 
     if (httpReq) {
-        caseRecord = copyDataFromHTTPReq(caseRecord,httpReq)
+        caseRecord = copyDataFromHTTPReq(caseRecord, httpReq)
     }
 
-    // if (dataObject) {
-    //     for (let key in dataObject.userDetails) {
-    //         caseRecord.customerDetails[key] = dataObject.userDetails[key];
-    //     }
-
-    //     for (let key in dataObject.requestedProducts) {
-    //         caseRecord.prearrivalInformation.importItems[key] = dataObject.requestedProducts[key];
-    //     }
-    // }
     caseRecord.caseId = getCaseId();
     caseRecord.caseStatus = "orderReceived";
     caseRecord.caseChangedAt = caseRecord.caseCreatedAt = new Date().toISOString();
+    caseRecord.caseCreatedBy = caseRecord.caseChangedBy = httpReq.customerDetails.eMail;
+    const index = caseRecord.taskList.findIndex(x => x.id === '');
+    if (index !== undefined) {
+        caseRecord.taskList.splice(index, 1)
+    }
 
+    if (caseRecord.caseType === 'expr') {
+        generateTaskList(caseRecord);
+    }
+
+}
+
+function generateTaskList(caseRecord) {
+    caseRecord.taskList.push({
+        "id": 1,
+        "conditionType": "ImportRequirement",
+        "condition": "PhytosanitaryCertificate",
+        "conditionCategory": "eCert",
+        "mandatory": "yes",
+        "mediaEvidence": "no",
+        "inputCategory": "InputValue",
+        "status": "",
+        "value": "",
+        "documentType": "eCert",
+        "biconUrl": "https://bicon.agriculture.gov.au/BiconWeb4.0/ImportConditions/Conditions?EvaluatableElementId=622973&Path=UNDEFINED&UserContext=External&EvaluationStateId=5ac9096e-d197-48df-9c81-5279c5e02315&CaseElementPk=1748670&EvaluationPhase=ImportDefinition&HasAlerts=True&HasChangeNotices=False&IsAEP=False"
+    })
 }
 
 function copyDataFromHTTPReq(target, source) {
@@ -80,11 +96,13 @@ function copyDataFromHTTPReq(target, source) {
 
     for (let key of keys) {
 
-        if (typeof source[key] != "object") {
+        if (typeof source[key] != "object" && typeof source[key] != "array") {
             target[key] = source[key];
-        } else {
-            target[key]= copyDataFromHTTPReq(target[key],source[key]);
+        }
+        else {
+            target[key] = copyDataFromHTTPReq(target[key], source[key]);
         }
     }
+
     return target;
 }

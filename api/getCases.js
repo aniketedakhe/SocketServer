@@ -7,8 +7,9 @@ module.exports = async function (req, res) {
     const cases = await db.collection(dbConfig.dbCollectionName).find(req.body? req.body :{}).toArray();
     const responseMessage = cases;
     //res.statusCode = req.method === 'GET' ? 200  : 204;
-    res.statusCode = 200;
-    res.write(JSON.stringify(responseMessage));
+    res.statusCode = 200;    
+    res.setHeader('Content-type','application/json')
+    res.write(JSON.stringify(responseMessage)); 
 }
 catch (e) {
     res.statusCode = 500;
