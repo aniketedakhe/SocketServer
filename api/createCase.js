@@ -92,7 +92,6 @@ function generateTaskList(caseRecord) {
         "biconUrl": "https://bicon.agriculture.gov.au/BiconWeb4.0/ImportConditions/Conditions?EvaluatableElementId=622973&Path=UNDEFINED&UserContext=External&EvaluationStateId=5ac9096e-d197-48df-9c81-5279c5e02315&CaseElementPk=1748670&EvaluationPhase=ImportDefinition&HasAlerts=True&HasChangeNotices=False&IsAEP=False"
     })
 }
-
 function updateImporterDetails(caseRecord) {
     caseRecord.importerDetails = ({
         "abn": "88000014675",
