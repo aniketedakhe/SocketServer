@@ -68,8 +68,11 @@ function setCaseMetaData(caseRecord, httpReq, dataObject) {
         caseRecord.taskList.splice(index, 1)
     }
 
+    updateImporterDetails(caseRecord);
+
     if (caseRecord.caseType === 'expr') {
         generateTaskList(caseRecord);
+        updateSupplierDetails(caseRecord);
     }
 
 }
@@ -87,6 +90,50 @@ function generateTaskList(caseRecord) {
         "value": "",
         "documentType": "eCert",
         "biconUrl": "https://bicon.agriculture.gov.au/BiconWeb4.0/ImportConditions/Conditions?EvaluatableElementId=622973&Path=UNDEFINED&UserContext=External&EvaluationStateId=5ac9096e-d197-48df-9c81-5279c5e02315&CaseElementPk=1748670&EvaluationPhase=ImportDefinition&HasAlerts=True&HasChangeNotices=False&IsAEP=False"
+    })
+}
+
+function updateImporterDetails(caseRecord) {
+    caseRecord.importerDetails = ({
+        "abn": "88000014675",
+        "cac": "",
+        "name": "Woolworths Supermarkets",
+        "addressLine1": "1 Woolworths Way",
+        "addressLine2": "",
+        "suburb": "Bella Vista",
+        "state": "NSW",
+        "city": "Sydney",
+        "postCode": "2153",
+        "countryCode": "AU",
+        "phoneNo": "0288850000",
+        "faxNo": "+0288850001",
+        "eMail": "info@woolworths.com.au",
+        "location": {
+            "lat": -33.7365,
+            "lon": 150.9495
+        }
+    })
+}
+
+function updateSupplierDetails(caseRecord) {
+    caseRecord.importItems[0].supplierDetails = ({
+        "abn": "1346549726",
+        "cac": "",
+        "name": "Southern Produce Ltd",
+        "addressLine1": "37 NEWNHAM ROAD",
+        "addressLine2": "",
+        "suburb": "TAURANGA",
+        "state": "NZ",
+        "city": "",
+        "postCode": "3174",
+        "countryCode": "NZ",
+        "phoneNo": "+64123465789",
+        "faxNo": "+64123456789",
+        "eMail": "Southernproduce@reason.com.au",
+        "location": {
+            "lat": 41.12,
+            "lon": -71.34
+        }
     })
 }
 
