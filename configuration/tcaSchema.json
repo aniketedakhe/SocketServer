@@ -115,7 +115,8 @@
       ]
     },
     "taskList": [
-      { "id":1,
+      {
+        "id" : 1,
         "conditionType": "ImportRequirement",
         "condition": "PhytosanitaryCertificate",
         "conditionCategory": "eCert",
@@ -129,8 +130,6 @@
       }
     ],
     "caseNotes" : [
-      {
-        
-      }
+    
     ]
   }
