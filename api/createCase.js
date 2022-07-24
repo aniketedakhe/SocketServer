@@ -115,15 +115,15 @@ function updateImporterDetails(caseRecord) {
 }
  
 function updateSupplierDetails(caseRecord) {
-    caseRecord.importItems[0].supplierDetails = ({
+    caseRecord.prearrivalInformation.importItems[0].supplierDetails = ({
         "abn": "1346549726",
         "cac": "",
         "name": "Southern Produce Ltd",
         "addressLine1": "37 NEWNHAM ROAD",
         "addressLine2": "",
-        "suburb": "TAURANGA",
+        "suburb": "Tauranga",
         "state": "NZ",
-        "city": "",
+        "city": "Te Puna",
         "postCode": "3174",
         "countryCode": "NZ",
         "phoneNo": "+64123465789",
