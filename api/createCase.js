@@ -1,14 +1,14 @@
 const { response } = require('express');
 const { dbConfig } = require('../configuration/config');
- 
+
 module.exports = async function (req, res, ws) {
     var caseRecord = require('../configuration/tcaSchema');
     setCaseMetaData(caseRecord, req.body);//, dataObject)
- 
+
     if (req) {
- 
+
         res.setHeader('Content-Type', 'application/json');
- 
+
         try {
             const client = await require('../api/dbConnect')(dbConfig.url);
             const db = await client.db(dbConfig.dbName);
@@ -16,7 +16,7 @@ module.exports = async function (req, res, ws) {
             const responseMessage = caseRecord;
             res.statusCode = 200;
             res.write(JSON.stringify(responseMessage));
- 
+
             if (ws) { //we have the websocket .. tell everyone that an item is added
                 ws.emit('work-item-created', caseRecord) //this means agency said send to importer, customer sent to importer
             }
@@ -25,23 +25,23 @@ module.exports = async function (req, res, ws) {
             res.statusCode = 500;
             res.write((e.errmsg) ? JSON.stringify(e.errmsg) : JSON.stringify(e));
         }
- 
+
         delete caseRecord._id;
         return res;
     }
 }
- 
+
 function getCaseId() {
     d = new Date();
     return (String(d.getDate()) + String(d.getMonth() + 1) + String(d.getFullYear()) + String(d.getHours()) + String(d.getMinutes()) + String(d.getSeconds()) + String(d.getMilliseconds()));
 }
- 
+
 function setEmpty(input) {
- 
+
     let keys = Object.keys(input);
- 
+
     for (let key of keys) {
- 
+
         if (typeof input[key] != "object") {
             input[key] = '';
         } else {
@@ -50,15 +50,15 @@ function setEmpty(input) {
     }
     return input;
 }
- 
+
 function setCaseMetaData(caseRecord, httpReq, dataObject) {
     setEmpty(caseRecord);
- 
+
 
     if (httpReq) {
         caseRecord = copyDataFromHTTPReq(caseRecord, httpReq)
     }
- 
+
     caseRecord.caseId = getCaseId();
     caseRecord.caseStatus = "orderReceived";
     caseRecord.caseChangedAt = caseRecord.caseCreatedAt = new Date().toISOString();
@@ -67,16 +67,17 @@ function setCaseMetaData(caseRecord, httpReq, dataObject) {
     if (index !== undefined) {
         caseRecord.taskList.splice(index, 1)
     }
- 
+
     updateImporterDetails(caseRecord);
- 
+
     if (caseRecord.caseType === 'expr') {
         generateTaskList(caseRecord);
         updateSupplierDetails(caseRecord);
+        updateTransportMode(caseRecord)
     }
- 
+
 }
- 
+
 function generateTaskList(caseRecord) {
     caseRecord.taskList.push({
         "id": 1,
@@ -113,7 +114,7 @@ function updateImporterDetails(caseRecord) {
         }
     })
 }
- 
+
 function updateSupplierDetails(caseRecord) {
     caseRecord.prearrivalInformation.importItems[0].supplierDetails = ({
         "abn": "1346549726",
@@ -135,13 +136,50 @@ function updateSupplierDetails(caseRecord) {
         }
     })
 }
- 
+
+function updateTransportMode(caseRecord) {
+
+    const defaultValue = {
+        "totalCustomsValueAmt": "62471.70",
+        "totalCustomsValueCurr": "NZD",
+        "inspectionLocName": "SYD",
+        "cargoType": "FCL",
+        "consignmentRef": "ACD0592882",
+        "containerNo": "APRU6100220",
+        "houseAirWaybill": "",
+        "masterAirWaybill": "",
+        "houseBill": "",
+        "oceanBill": "ACD0597470",
+        "voyageNo": "2204",
+        "vesselID": "9435234",
+        "vesselName": "Titanic Jewel",
+        "marksAndNumbers": "Avocados container",
+        "transportMode": "SEA",
+        "portofLoading": {
+            "code": "NZTRG",
+            "location": {
+                "lat": -37.699,
+                "lon": 176.083
+            }
+        },
+        "portofDischarge": {
+            "code": "AUSYD",
+            "location": {
+                "lat": -33.976,
+                "lon": 151.218
+            }
+        }
+    }
+
+    copyDataFromHTTPReq(caseRecord.prearrivalInformation, defaultValue)
+}
+
 function copyDataFromHTTPReq(target, source) {
- 
+
     let keys = Object.keys(source);
- 
+
     for (let key of keys) {
- 
+
         if (typeof source[key] != "object" && typeof source[key] != "array") {
             target[key] = source[key];
         }
@@ -149,7 +187,6 @@ function copyDataFromHTTPReq(target, source) {
             target[key] = copyDataFromHTTPReq(target[key], source[key]);
         }
     }
- 
+
     return target;
 }
- 
