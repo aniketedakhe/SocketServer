@@ -39,7 +39,8 @@ module.exports = async function (req, res, ws) {
         res.write(JSON.stringify(responseMessage));
 
         if (ws){ //we have the websocket .. tell everyone that an item is added
-            switch (req.body.updateProperty.propertyValue) {
+            req.body.updateProperty.forEach(element => {
+            switch (element.propertyValue) {
                 case CaseStatus.DspToAgency:
                     ws.emit('work-item-published', req.body.query[0]) //this means importer said send to agency
                     break;
@@ -53,6 +54,7 @@ module.exports = async function (req, res, ws) {
                 default:
                     break;
             }
+        });
         }
     }
     catch (e) {
