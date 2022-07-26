@@ -4,7 +4,9 @@ module.exports = async function (req, res) {
     try {
     const client = await require('../api/dbConnect') (dbConfig.url);
     const db = await client.db(dbConfig.dbName);
-    const projection = { 'caseId' : true , 'caseType' : true , 'caseStatus' : true, 'caseCreatedAt' : true, 'caseUpdatedAt' : true, 'prearrivalInformation.importItems.goodsDescr': true };
+    const projection = { 'caseId' : true , 'caseType' : true , 'caseStatus' : true, 'caseCreatedAt' : true, 'caseUpdatedAt' : true, 'prearrivalInformation.importItems.goodsDescr': true,
+    'prearrivalInformation.importItems.imageSrc': true, 'prearrivalInformation.importItems.imageAlt': true, 'prearrivalInformation.importItems.quantityDetails.qty': true, 
+    'prearrivalInformation.importItems.quantityDetails.qtyUnit': true};
     const cases = await db.collection(dbConfig.dbCollectionName).find(req.body? req.body :{},{ projection : projection } ).sort({ "caseChangedAt": -1 }).toArray();
     const responseMessage = cases;
     //res.statusCode = req.method === 'GET' ? 200  : 204;
