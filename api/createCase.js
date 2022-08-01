@@ -26,7 +26,12 @@ module.exports = async function (req, res, ws) {
             res.write((e.errmsg) ? JSON.stringify(e.errmsg) : JSON.stringify(e));
         }
 
-        delete caseRecord._id;
+        for (var variableKey in caseRecord){
+            if (caseRecord.hasOwnProperty(variableKey)){
+                delete caseRecord[variableKey];
+            }
+        }
+        //delete caseRecord._id;
         return res;
     }
 }
@@ -184,6 +189,8 @@ function copyDataFromHTTPReq(target, source) {
             target[key] = source[key];
         }
         else {
+            Array.isArray(source[key])?target[key] = []:target[key] = {};
+            
             target[key] = copyDataFromHTTPReq(target[key], source[key]);
         }
     }
